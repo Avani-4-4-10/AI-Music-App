@@ -1,14 +1,17 @@
-song=""
+song1=""
+song2=""
 leftWristX=0
 rightWristX=0
 leftWristY=0
 rightWristY=0
-scoreLeftWristy=0
-scoreRightWrist= 0 
-
+scoreLeftWrist = 0
+scoreRightWrist = 0
+status1= ""
+status2= ""
 
 function preload(){
-    song=loadSound("music.mp3")
+    song1=loadSound("music.mp3")
+    song2=loadSound("music2.mp3")
 }
 
 function setup(){
@@ -27,58 +30,40 @@ function draw(){
     fill("red")
     stroke("blue")
 
-    if(scoreRightWrist > 0.2){
-        circle(rightWristX , rightWristY , 20)
+   status1 = song1.isPlaying()   
+   status2= song2.isPlaying()
+    if(scoreLeftWrist > 0.2){
+        circle(LeftWristX , LeftWristY , 20)
 
-        if(rightWristY > 0 && rightWristY <= 100){
-            song.rate(0.5)
-            document.getElementById("speed").innerHTML="Speed= 0.5x "
-        }
-        else if(rightWristY > 100 && rightWristY <= 200){
-            song.rate(1)
-            document.getElementById("speed").innerHTML = "Speed= 1x"
-        }
-        else if(rightWristY > 200 && rightWristY <= 300){
-            song.rate(1.5)
-            document.getElementById("speed").innerHTML = "Speed =1.5x"
-        }
-        else if(rightWristY > 300 && rightWristY <= 400){
-            song.rate(2)
-            document.getElementById("speed").innerHTML= "Speed =2x"
+        song2.stop()
 
+        if(status1 == false){
+            song1.play()
+            document.getElementById("song_name").innerHTML="song name: Peter Pan" 
         }
-        else if(rightWristY > 400 && rightWristY <= 500){
-            song.rate(2.5)
-            document.getElementById("speed").innerHTML= "Speed= 2.5x "
-        }
-
     }
 
-   if(scoreLeftWristy > 0.2){
-       circle(leftWristX , leftWristY , 20)
+    if(scoreRightWrist > 0.2){
+        circle(RightWristX , RightWristY , 20)
 
-       leftWristY_number= Number(leftWristY)
-       remove_decimals = Math.floor(leftWristY_number)
-       volume = remove_decimals/500
-       song.setVolume(volume)
+        song1.stop()
 
-       document.getElementById("volume").innerHTML="volume = " + volume
-   }
+        if(status2 == false){
+            song2.play()
+            document.getElementById("song_name").innerHTML="song name: Harry Potter theme song" 
+        }
+    }
 }
 
 function play(){
-    song.play()
-    song.setVolume(1)
-    song.rate(1)
+    song1.play()
 }
 
 function modelLoaded(){
     console.log("Posenet is initialized!")
-
 }
 
 function gotPoses(results){
-
     if(results.length > 0){
 
         console.log(results)
@@ -87,13 +72,14 @@ function gotPoses(results){
         rightWristX= results[0].pose.rightWrist.x
         leftWristY= results[0].pose.leftWrist.y
         rightWristY= results[0].pose.rightWrist.y
-        scoreLeftWristy=results[0].pose.leftWrist.confidence
-        scoreRightWrist=results[0].pose.rightWrist.confidence
 
-        console.log(leftWristX , leftWristY)
-        console.log(rightWristX , rightWristY)
-        console.log(scoreLeftWristy)
+        console.log(leftWristX , rightWristX)
+        console.log(leftWristY , rightWristY)
+
+        scoreLeftWrist= results[0].pose.leftWrist.confidence
+        scoreRightWrist= results[0].pose.rightWrist.confidence
+
+        console.log(scoreLeftWrist)
         console.log(scoreRightWrist)
-
     }
 }
