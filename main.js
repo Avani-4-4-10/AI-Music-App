@@ -33,7 +33,7 @@ function draw(){
    status1 = song1.isPlaying()   
    status2= song2.isPlaying()
     if(scoreLeftWrist > 0.2){
-        circle(LeftWristX , LeftWristY , 20)
+        circle(leftWristX , leftWristY , 20)
 
         song2.stop()
 
@@ -44,7 +44,7 @@ function draw(){
     }
 
     if(scoreRightWrist > 0.2){
-        circle(RightWristX , RightWristY , 20)
+        circle(rightWristX , rightWristY , 20)
 
         song1.stop()
 
